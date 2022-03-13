@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 
+import axios from "axios";
 import People from './assets/people.svg'
 import Arrow from './assets/arrow.svg'
 import Trash from './assets/trash.svg'
@@ -19,20 +20,33 @@ import {
 
 
 function App() {
-  const [ users, setUsers] = useState([]);
-  const inputName = useRef()
-  const inputAge = useRef()
-  
+  const [users, setUsers] = useState([]);
+  const inputName = useRef();
+  const inputAge = useRef();
 
 
-  function addNewUser(){
-    setUsers([...users, {id: Math.random(), name:inputName.current.value, age:inputAge.current.value}])
+
+  async function addNewUser() {
+
+    const data = await axios.post("http://localhost:3001/users", { 
+      name: inputName.current.value, 
+      age: inputAge.current.value 
+    });
+
+    console.log(data)
+
+    /* setUsers([...users, 
+     {
+        id: Math.random(), 
+        name:inputName.current.value, 
+        age:inputAge.current.value
+      }]);*/
   }
 
 
-  function deleteUser(userId){
-    const newUsesr = users.filter (user => user.id !== userId )
-    setUsers(newUsesr)
+  function deleteUser(userId) {
+    const newUsesr = users.filter(user => user.id !== userId);
+    setUsers(newUsesr);
   }
 
 
@@ -59,7 +73,7 @@ function App() {
               <p> {user.name}</p> <p>  {user.age}</p>
               <button onClick={() => deleteUser(user.id)}>
                 <img src={Trash} alt="Lata de lixo"></img>
-                </button>
+              </button>
             </User>
           ))}
         </ul>
