@@ -25,7 +25,9 @@ function App() {
 
 
   function addNewUser(){
-     setUsers([{id: Math.random(), name, age}])
+     setUsers([...users, {id: Math.random(), name, age}])
+
+     console.log(users)
   }
 
 
