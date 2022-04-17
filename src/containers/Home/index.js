@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import axios from "axios";
-import People from './assets/people.svg'
-import Arrow from './assets/arrow.svg'
-import Trash from './assets/trash.svg'
+import People from '../../assets/people.svg'
+import Arrow from '../../assets/arrow.svg'
+import Trash from '../../assets/trash.svg'
 
 
 import {
