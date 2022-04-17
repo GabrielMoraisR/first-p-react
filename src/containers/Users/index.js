@@ -1,8 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import axios from "axios";
 import People from '../../assets/people.svg'
 import Arrow from '../../assets/arrow.svg'
+import Trash from '../../assets/trash.svg'
+
 
 import {
   Container,
@@ -12,7 +14,8 @@ import {
   Input,
   Button,
   InputLabel,
- } from './Style'
+  User
+} from './Style'
 
 
 
@@ -33,6 +36,23 @@ function App() {
     setUsers([...users, newUser]);
   }
 
+    useEffect(() => {
+      async function fetchUsers (){
+      const {data: newUsers} = await axios.get("http://localhost:3001/users")
+      setUsers(newUsers)
+    }
+    fetchUsers()
+}, [])
+
+
+  async function deleteUser(userId) {
+    await axios.delete(`http://localhost:3001/users/${userId}`)
+    const newUsesr = users.filter(user => user.id !== userId);
+    setUsers(newUsesr);
+  }
+
+
+
   return (
     <Container>
       <Imagem alt="Logo-Imagem" src={People} />
@@ -49,6 +69,16 @@ function App() {
           Cadastrar <img alt="Seta" src={Arrow} />
         </Button>
 
+        <ul>
+          {users.map(user => (
+            <User key={user.id}>
+              <p> {user.name}</p> <p>  {user.age}</p>
+              <button onClick={() => deleteUser(user.id)}>
+                <img src={Trash} alt="Lata de lixo"></img>
+              </button>
+            </User>
+          ))}
+        </ul>
       </ContainerItens>
     </Container>
   );
